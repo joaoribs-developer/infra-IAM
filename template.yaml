@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Part 1 - Create IAM resources with CloudFormation
+
+Resources:
+  AdminPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: AdminPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: '*'
+            Resource: '*'
+      Groups:
+        - !Ref Admin
+
+  DevelopersPolicy:
+    Type: 'AWS::IAM::Policy'
+    Properties:
+      PolicyName: DevelopersPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: 
+              - 's3:GetObject'
+              - 's3:PutObject'
+              - 'cloudformation:Describe*'
+              - 'cloudformation:List*'
+              - 'cloudformation:Get*'
+            Resource: '*'
+      Groups:
+        - !Ref Developers
+
+  Admin:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: admin
+
+  Developers:  
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: devs
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess
+
+  Cinza:
+    Type: AWS::IAM::User
+    Properties:
+      LoginProfile:
+          Password: cinzinha123
+      Groups: 
+        - !Ref Developers
+      UserName: Cinza
+
+  Geisa:
+    Type: AWS::IAM::User
+    Properties:
+      Groups: 
+        - !Ref Admin
+      UserName: Geisa

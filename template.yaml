@@ -49,7 +49,7 @@ Resources:
     Type: AWS::IAM::User
     Properties:
       LoginProfile:
-          Password: cinzinha123
+          Password: Cinzinha!23
       Groups: 
         - !Ref Developers
       UserName: Cinza

@@ -31,14 +31,14 @@ Resources:
               - 'cloudformation:Get*'
             Resource: '*'
       Groups:
-        - !Ref Developers
+        - !Ref DevelopersB
 
   Admin:
     Type: AWS::IAM::Group
     Properties:
       GroupName: admin
 
-  Developers:  
+  DevelopersB:  
     Type: AWS::IAM::Group
     Properties:
       GroupName: devs
@@ -51,12 +51,21 @@ Resources:
       LoginProfile:
           Password: Cinzinha!23
       Groups: 
-        - !Ref Developers
+        - !Select [1, !Split ["/", "arn:aws:iam::842675973902:group/Developers"]]
       UserName: Cinza
+
+  CinzaB:
+    Type: AWS::IAM::User
+    Properties:
+      LoginProfile:
+          Password: Cinzinha!23
+      Groups: 
+        - !Ref DevelopersB
+      UserName: CinzaB    
 
   Geisa:
     Type: AWS::IAM::User
     Properties:
       Groups: 
         - !Ref Admin
-      UserName: Geisa
+      UserName: Geisinha
